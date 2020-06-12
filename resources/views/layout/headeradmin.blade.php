@@ -10,29 +10,24 @@
 
     <title>Admin page</title>
   </head>
-  <body>
+  <body style="background-color:black">
 	<nav class="navbar navbar-expand-lg" style="background-color:black">
-	<img src="assets/logo.png" alt="" style="width:15%" class="pr-5">
-	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-		<span class="navbar-toggler-icon"></span>
-	</button>
+	<img src="/assets/logo.png" alt="" style="width:15%" class="pr-5">
+
 	<div class="collapse navbar-collapse" id="navbarNav">
 		<ul class="navbar-nav">
 		<li class="nav-item active">
-			<a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+			<a class="nav-link" href="{{  url ('dashboard-post')}}">Post</a>
 		</li>
 		<li class="nav-item">
-			<a class="nav-link" href="#">Features</a>
-		</li>
-		<li class="nav-item">
-			<a class="nav-link" href="#">Pricing</a>
-		</li>
-		<li class="nav-item">
-			<a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-		</li>
+			<a class="nav-link" href="{{  url ('dashboard-create')}}">Create a Post</a>
+      <li class="nav-item">
+			<a class="nav-link" href="{{  url ('/logout')}}">Logout</a>
 		</ul>
 	</div>
 	</nav>
+  @yield('container')
+
     
 
     <!-- Optional JavaScript -->

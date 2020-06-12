@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 
 use App\User;
 use App\Detail;
+use App\Post;
+use App\Comment;
 
 use Carbon\Traits\Test;
 use Illuminate\Http\Request;
@@ -25,7 +27,11 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        $data = DB::table('posts')
+            ->orderBy('post_id','DESC')
+            -> get();
+    // dump($data);
+    return view ("welcome", compact('data'));
     }
 
     /**
@@ -37,8 +43,6 @@ class UserController extends Controller
     {
         $email = ($request->input("email"));
         $password = $request->input("password");
-
-
 
 
         $users = User::all()->where('email',  $email);
@@ -74,7 +78,7 @@ class UserController extends Controller
 
                     
                 }
-                return view('welcome');
+                return Redirect::to('/');
             }else{
                 return Redirect::to(URL::previous())->with('message', 'Invalid  Username and or Passwords');
             }
@@ -107,6 +111,36 @@ class UserController extends Controller
         return view('login');
     }
 
+    public function detail($id){
+        $post = DB::table('posts')
+        ->where('post_id',$id)
+        -> get();        
+
+        $comments = DB::table('comments')
+        ->join('users','users.user_id','=','comments.user_id')
+        // ->join('posts','users.post_id','=','comments.post_id')
+        ->join('details','details.detail_id','=','users.detail_id')
+        ->where('comments.post_id',$id)
+        
+        ->get();
+         return view('detailpost', compact('post','comments'));
+        //dump($comments);
+
+
+    }
+
+    public function createcomment(Request $request, $id)
+    {
+        Comment::create([ 
+            'user_id' =>$request->session()->get('user_id'),
+            'post_id'=> $id,
+            'comment' =>  $request->input('comment')
+        ]);
+        return Redirect::to("/detail/$id");
+    }
+
+
+  
     /**
      * Display the specified resource.
      *
@@ -138,7 +172,7 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+       
     }
 
     /**
